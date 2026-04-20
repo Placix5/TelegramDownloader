@@ -41,6 +41,12 @@ int main() {
     download_path = config["download_path"];
     user_download_path = download_path; // Por defecto asignamos la misma
 
+    json log_req = {
+        {"@type", "setLogVerbosityLevel"},
+        {"new_verbosity_level", 0}  // 0 = nada, 1 = solo errores graves
+    };
+    td_json_client_execute(nullptr, log_req.dump().c_str());
+
     void* client = td_json_client_create();
 
     int64_t chat_id = 0;
@@ -52,13 +58,6 @@ int main() {
 
     int total = links.size();
     int actual = 0;
-
-    json log_req = {
-        {"@type", "setLogVerbosityLevel"},
-        {"new_verbosity_level", 1}  // 0 = nada, 1 = errores, 2 = warnings, 3 = info, 4 = debug
-    };
-    std::string log_payload = log_req.dump();
-    td_json_client_send(client, log_payload.c_str());
 
     // Bucle principal
     bool authenticated = false;
