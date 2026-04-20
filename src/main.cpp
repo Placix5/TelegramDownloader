@@ -92,9 +92,44 @@ int main() {
                     cout << "Añadido enlace: " << base_url + "/" + to_string(id) << endl;
                 }
                 
-                cout << "Especifiique ruta de descarga (deje vacío para usar la predeterminada): ";
+                cout << "Especifique ruta de descarga (deje vacío para usar la predeterminada [" << download_path << "]): ";
                 cin.ignore(); // Limpiar el buffer de entrada
                 getline(cin, user_download_path);
+
+                // Si el usuario lo deja en blanco, usamos la del JSON
+                if (user_download_path.empty()) {
+                    user_download_path = download_path;
+                }
+
+                // Nos aseguramos de que la ruta termina en '/' por seguridad
+                if (user_download_path.back() != '/') {
+                    user_download_path += '/';
+                }
+
+                // --- 🛡️ FASE DE VALIDACIÓN DE RUTA ---
+                if (!std::filesystem::exists(user_download_path)) {
+                    cout << "\n⚠️ La ruta especificada no existe: " << user_download_path << endl;
+                    cout << "¿Desea crear el directorio ahora? (s/n): ";
+                    string respuesta;
+                    cin >> respuesta;
+
+                    if (respuesta == "s" || respuesta == "S") {
+                        try {
+                            std::filesystem::create_directories(user_download_path);
+                            cout << "✅ Directorio creado con éxito." << endl;
+                        } catch (const std::exception& e) {
+                            cerr << "❌ Error fatal al intentar crear el directorio: " << e.what() << endl;
+                            cout << "Cierre el programa (Ctrl+C) y revise los permisos." << endl;
+                            requested = true; // Evita que se quede en bucle
+                            continue;
+                        }
+                    } else {
+                        cout << "❌ Descarga cancelada por el usuario. Cierre el programa (Ctrl+C) para volver a empezar." << endl;
+                        requested = true;
+                        continue;
+                    }
+                }
+                // -------------------------------------
 
                 cout << "\n📥 Iniciando descarga de archivos...\n";
 
