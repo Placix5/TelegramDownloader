@@ -1,0 +1,15 @@
+# Ignorar el ejecutable y archivos de compilación
+build/
+
+# Ignorar la configuración con mis credenciales reales
+config/config.json
+
+# Ignorar las bases de datos y sesiones de Telegram
+td_db/
+td_files/
+tdlib_db/
+tdlib_files/
+
+# Ignorar archivos del sistema operativo
+.DS_Store
+*.o
