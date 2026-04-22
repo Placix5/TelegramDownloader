@@ -1,47 +1,59 @@
-#include "../include/menu.hpp"
 #include <iostream>
+#include <cstdlib> 
 #include "../include/downloader.hpp"
+#include "../include/renamer.hpp"
 
 using namespace std;
 
 void mostrar_menu() {
-    int opcion = 0;
+    int opcion;
     
-    while (opcion != 5) {
-        cout << "\n======================================" << endl;
-        cout << "  🎬 TELEGRAM MEDIA DOWNLOADER v2.0" << endl;
-        cout << "======================================" << endl;
-        cout << "1. Descargar usando URL de mensajes" << endl;
-        cout << "2. Descargar usando un archivo de texto" << endl;
-        cout << "3. Renombrado masivo de series" << endl;
-        cout << "4. Descompresión de archivos por lotes (Buffer)" << endl;
-        cout << "5. Salir" << endl;
-        cout << "======================================" << endl;
-        cout << "Elige una opción: ";
+    do {
+        // Limpiamos la pantalla para que el menú siempre se vea impecable
+        system("clear"); 
         
-        cin >> opcion;
-
-        // Limpiar la pantalla (opcional, queda más bonito)
-        // system("clear"); 
+        cout << "\n======================================";
+        cout << "\n  🎬 TELEGRAM MEDIA DOWNLOADER v2.0";
+        cout << "\n======================================";
+        cout << "\n1. Descargar usando URL de mensajes";
+        cout << "\n2. Descargar usando un archivo de texto";
+        cout << "\n3. Renombrado masivo de series";
+        cout << "\n4. Descompresión de archivos por lotes (Buffer)";
+        cout << "\n5. Salir";
+        cout << "\n======================================";
+        cout << "\nElige una opción: ";
+        
+        // Control de errores por si el usuario escribe una letra en vez de un número
+        if (!(cin >> opcion)) {
+            cin.clear();
+            cin.ignore(256, '\n');
+            continue;
+        }
 
         switch (opcion) {
-            case 1: 
+            case 1:
                 opcion_descarga_rango();
                 break;
-            case 2: 
-                cout << "\n[Leyendo archivo txt... (Próximamente)]" << endl;
+            case 2:
+                // ¡Aquí conectamos la nueva función automática!
+                opcion_descarga_archivo(); 
                 break;
-            case 3: 
-                cout << "\n[Iniciando renombrado... (Próximamente)]" << endl;
+            case 3:
+                renombrado_masivo();
                 break;
-            case 4: 
-                cout << "\n[Descomprimiendo Buffer... (Próximamente)]" << endl;
+            case 4:
+                cout << "\n⏳ Opción 4 (Descompresión Buffer) en construcción...\n";
+                cout << "Presiona Intro para volver...";
+                cin.ignore(); cin.get();
                 break;
-            case 5: 
-                cout << "\n👋 ¡Hasta pronto! Cerrando el programa..." << endl;
+            case 5:
+                cout << "\n👋 ¡Cerrando sesión y apagando TDLib! Hasta pronto.\n";
                 break;
-            default: 
-                cout << "\n❌ Opción no válida. Inténtalo de nuevo." << endl;
+            default:
+                cout << "\n❌ Opción no válida. Introduce un número del 1 al 5.\n";
+                cout << "Presiona Intro para volver...";
+                cin.ignore(); cin.get();
+                break;
         }
-    }
+    } while (opcion != 5);
 }
