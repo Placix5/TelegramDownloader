@@ -2,6 +2,7 @@
 #include <cstdlib> 
 #include "../include/downloader.hpp"
 #include "../include/renamer.hpp"
+#include "../include/extractor.hpp"
 
 using namespace std;
 
@@ -42,9 +43,7 @@ void mostrar_menu() {
                 renombrado_masivo();
                 break;
             case 4:
-                cout << "\n⏳ Opción 4 (Descompresión Buffer) en construcción...\n";
-                cout << "Presiona Intro para volver...";
-                cin.ignore(); cin.get();
+                descompresion_lotes();
                 break;
             case 5:
                 cout << "\n👋 ¡Cerrando sesión y apagando TDLib! Hasta pronto.\n";
